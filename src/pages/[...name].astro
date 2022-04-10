@@ -1,0 +1,86 @@
+---
+const name = Astro.params.name;
+const resp = await fetch(`https://cloudshare.download/profiles/${name}.json`);
+let profile: ProfileType;
+try {
+  profile = await resp.json();
+} catch {
+  profile = {
+    name: "404 - Page not found",
+    img: "",
+    description: "This page is still unused",
+    links: [
+      {
+        label: "Make it yours!",
+        url: "/new",
+      },
+    ],
+  };
+  //return new Response("not found", { status: 404 });
+}
+const nameParts = name.split("/");
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{profile.name}</title>
+  </head>
+  <body>
+    <div class="absolute top-0 left-0 h-full w-full">
+      <div class="text-center max-w-lg mx-auto my-14 px-2">
+        {nameParts.length > 1 ? (
+          <div class="text-left text-gray-400">
+            <a
+              class="hover:underline hover:underline-offset-2"
+              href={"/" + nameParts[0]}
+            >
+              {nameParts[0]}
+            </a>
+            {nameParts.slice(1).map((part, i) => (
+              <>
+                <span class="mx-1 text-gray-300">/</span>
+                <a
+                  class="hover:underline hover:underline-offset-2"
+                  href={"/" + nameParts.slice(0, i + 2).join("/")}
+                >
+                  {part}
+                </a>
+              </>
+            ))}
+          </div>
+        ) : (
+          ""
+        )}
+        <img
+          class="h-28 rounded-full block mx-auto"
+          src="https://cloudshare.download/ostsee.png"
+        />
+        <div class="my-5">
+          <div class="text-3xl font-bold">{profile.name}</div>
+          <div>{profile.description}</div>
+        </div>
+        {profile.links.map((link) =>
+          link.img ? (
+            <a
+              target="_blank"
+              href={link.url}
+              class="my-4 flex w-full border-2 border-gray-800 py-4 px-6"
+            >
+              <img class="my-auto inline-block h-4" src={link.img} />
+              <div class="flex-1">{link.label}</div>
+            </a>
+          ) : (
+            <a
+              href={link.url}
+              class="my-4 block w-full border-2 border-gray-800 py-4 hover:underline hover:underline-offset-2"
+            >
+              {link.label}
+            </a>
+          )
+        )}
+      </div>
+    </div>
+  </body>
+</html>

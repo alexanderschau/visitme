@@ -47,6 +47,13 @@
   placeholder="description"
   type="text"
 />
+<div class="my-3 mb-0">Profile Image URL</div>
+<input
+  bind:value={profile.img}
+  class="my-2 w-full bg-gray-100 px-5 py-3"
+  placeholder="description"
+  type="url"
+/>
 <div class="my-3">Links</div>
 {#each profile.links as link, i (link)}
   <div

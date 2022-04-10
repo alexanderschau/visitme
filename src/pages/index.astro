@@ -1,12 +1,23 @@
 ---
+import Profile from "../components/modern/Profile.svelte";
 ---
+
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Astro</title>
+  </head>
+  <body>
+    <Profile
+      edit={false}
+      profile={{
+        img: "https://avatars.githubusercontent.com/u/42480227?v=4",
+        name: "John Doe",
+        description: "An example link.",
+        links: [{ text: "Example", url: "https://example.com" }],
+        primaryColor: [255, 0, 60],
+      }}
+    />
+  </body>
 </html>

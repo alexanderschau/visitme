@@ -3,14 +3,23 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro dev --host 0.0.0.0",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "format": "prettier -w ."
   },
   "devDependencies": {
+    "@astrojs/svelte": "^0.0.2",
     "@astrojs/tailwind": "^0.1.0",
     "astro": "^1.0.0-beta.5",
-    "colorthief": "^2.3.2"
+    "colorthief": "^2.3.2",
+    "node-sass": "^7.0.1",
+    "prettier": "^2.6.2",
+    "prettier-plugin-astro": "^0.0.12",
+    "prettier-plugin-svelte": "^2.7.0",
+    "prettier-plugin-tailwindcss": "^0.1.8",
+    "sass": "^1.50.0",
+    "typescript": "^4.6.3"
   }
 }

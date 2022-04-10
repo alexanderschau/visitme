@@ -1,6 +1,5 @@
 <script lang="ts">
-	import type { Profile } from '../types';
-	export let profile: Profile;
+  export let profile: ProfileType;
 </script>
 
 <title>{profile.name}</title>

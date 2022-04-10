@@ -1,6 +1,9 @@
 <script lang="ts">
   import { flip } from "svelte/animate";
+  import EditPopup from "./editPopup.svelte";
   export let profile: ProfileType;
+
+  let currentLink: number = -1;
 
   let hovering: number;
   let dragId: number;
@@ -59,7 +62,7 @@
     <div
       on:click={(e) => {
         e.preventDefault();
-        console.log("click");
+        currentLink = i;
       }}
       class="flex-1 px-5 py-3"
     >
@@ -68,3 +71,31 @@
     <div class="w-8 bg-black" />
   </div>
 {/each}
+<div class="text-center">
+  <a
+    on:click={(e) => {
+      e.preventDefault();
+      profile.links = [
+        ...profile.links,
+        {
+          label: "Untitled link",
+          url: "https://example.com",
+        },
+      ];
+    }}
+    href="/"
+    class="hover:underline hover:underline-offset-2">+ Add new link</a
+  >
+</div>
+{#if currentLink != -1}
+  <EditPopup
+    on:close={() => {
+      currentLink = -1;
+    }}
+    on:delete={() => {
+      profile.links = profile.links.filter((c, i) => i != currentLink);
+      currentLink = -1;
+    }}
+    bind:link={profile.links[currentLink]}
+  />
+{/if}

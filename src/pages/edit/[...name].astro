@@ -1,0 +1,37 @@
+---
+import New from "../../components/edit.svelte";
+
+const name = Astro.params.name;
+const resp = await fetch(`https://cloudshare.download/profiles/${name}.json`);
+let profile: ProfileType;
+try {
+  profile = await resp.json();
+} catch {
+  profile = {
+    name: "John Doe",
+    img: "",
+    description: "This is a description",
+    links: [
+      {
+        label: "Example link",
+        url: "https://example.com",
+      },
+    ],
+  };
+}
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+  </head>
+  <body>
+    <div class="absolute top-0 left-0 h-full w-full">
+      <div class="max-w-md mx-auto my-14 px-2">
+        <New {profile} client:load />
+      </div>
+    </div>
+  </body>
+</html>

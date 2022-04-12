@@ -3,6 +3,7 @@ import {
   S3Client,
   GetObjectCommand,
   GetObjectCommandOutput,
+  PutObjectCommand,
 } from "@aws-sdk/client-s3";
 
 // Apparently the stream parameter should be of type Readable|ReadableStream|Blob
@@ -16,8 +17,8 @@ export async function streamToString(stream: Readable): Promise<string> {
   });
 }
 
-export const getS3 = async (key: string): Promise<string> => {
-  const client = new S3Client({
+const getClient = () =>
+  new S3Client({
     region: import.meta.env.S3_REGION,
     endpoint: import.meta.env.S3_ENDPOINT,
     credentials: {
@@ -26,6 +27,9 @@ export const getS3 = async (key: string): Promise<string> => {
     },
     forcePathStyle: true,
   });
+
+export const getS3 = async (key: string): Promise<string> => {
+  const client = getClient();
 
   const cmd = new GetObjectCommand({
     Bucket: import.meta.env.S3_BUCKET_NAME,
@@ -38,4 +42,14 @@ export const getS3 = async (key: string): Promise<string> => {
   return text;
 };
 
-export const setS3 = async () => {};
+export const setS3 = async (key: string, value: string) => {
+  const client = getClient();
+
+  const cmd = new PutObjectCommand({
+    Bucket: import.meta.env.S3_BUCKET_NAME,
+    Key: key,
+    Body: value,
+  });
+
+  await client.send(cmd);
+};

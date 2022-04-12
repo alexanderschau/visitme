@@ -1,11 +1,12 @@
 ---
+import { getS3 } from "../../utils";
 import New from "../../components/edit.svelte";
 
 const name = Astro.params.name;
-const resp = await fetch(`https://cloudshare.download/profiles/${name}.json`);
 let profile: ProfileType;
 try {
-  profile = await resp.json();
+  const respText = await getS3(`${name}.json`);
+  profile = JSON.parse(respText);
 } catch {
   profile = {
     name: "John Doe",
@@ -30,7 +31,7 @@ try {
   <body>
     <div class="absolute top-0 left-0 h-full w-full">
       <div class="max-w-md mx-auto my-14 px-2">
-        <New {profile} client:load />
+        <New {name} {profile} client:load />
       </div>
     </div>
   </body>

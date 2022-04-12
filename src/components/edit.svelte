@@ -2,6 +2,7 @@
   import { flip } from "svelte/animate";
   import EditPopup from "./editPopup.svelte";
   export let profile: ProfileType;
+  export let name: string;
 
   let currentLink: number = -1;
 
@@ -29,6 +30,14 @@
     const start = i;
     event.dataTransfer.setData("text/plain", start);
     dragId = i;
+  };
+
+  const save = async () => {
+    await fetch(`/api/set/${name}`, {
+      method: "POST",
+      body: JSON.stringify(profile),
+    });
+    window.location.href = "/" + name;
   };
 </script>
 
@@ -93,6 +102,22 @@
     href="/"
     class="hover:underline hover:underline-offset-2">+ Add new link</a
   >
+  <div class="mt-8">
+    <a
+      on:click={(e) => {
+        e.preventDefault();
+        save();
+      }}
+      href={"/" + name}
+      class="my-2 block w-full border-2 border-gray-800 py-3 px-6 hover:underline hover:underline-offset-2"
+      >Save changes</a
+    >
+    <a
+      href={"/" + name}
+      class="my-2 block w-full border-2 border-gray-800 py-3 px-6 hover:underline hover:underline-offset-2"
+      >Cancel</a
+    >
+  </div>
 </div>
 {#if currentLink != -1}
   <EditPopup

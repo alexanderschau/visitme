@@ -1,7 +1,9 @@
 ---
 import { setS3, getS3 } from "../../../utils";
-import { verify } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import cookie from "cookie";
+
+const { verify } = jwt;
 
 const get = async ({ name }) => {
   const authFile = `${name.split("/")[0]}.auth.txt`;

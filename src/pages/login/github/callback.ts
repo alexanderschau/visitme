@@ -1,5 +1,5 @@
 import cookie from "cookie";
-import * as jsonwebtoken from "jsonwebtoken";
+import jsonwebtoken from "jsonwebtoken";
 
 export const get = async (_, req: Request) => {
   const tokenURL = "https://github.com/login/oauth/access_token";

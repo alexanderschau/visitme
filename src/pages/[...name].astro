@@ -33,7 +33,7 @@ const nameParts = name.split("/");
     <div class="absolute top-0 left-0 h-full w-full">
       <div class="text-center max-w-lg mx-auto my-14 px-2">
         {nameParts.length > 1 ? (
-          <div class="text-left text-gray-400">
+          <div class="mb-6 text-left text-gray-400">
             <a
               class="hover:underline hover:underline-offset-2"
               href={"/" + nameParts[0]}
@@ -69,7 +69,12 @@ const nameParts = name.split("/");
         {profile.links.map((link) =>
           link.img ? (
             <a
-              target="_blank"
+              target={
+                new URL(link.url, "https://visitme.cyou").hostname !=
+                "visitme.cyou"
+                  ? "_blank"
+                  : "_self"
+              }
               href={link.url}
               class="my-4 flex w-full border-2 border-gray-800 px-6 hover:underline hover:underline-offset-2"
             >
@@ -78,7 +83,12 @@ const nameParts = name.split("/");
             </a>
           ) : (
             <a
-              target="_blank"
+              target={
+                new URL(link.url, "https://visitme.cyou").hostname !=
+                "visitme.cyou"
+                  ? "_blank"
+                  : "_self"
+              }
               href={link.url}
               class="my-4 block w-full border-2 border-gray-800 py-4 hover:underline hover:underline-offset-2"
             >
@@ -86,36 +96,40 @@ const nameParts = name.split("/");
             </a>
           )
         )}
+        <a
+          href={"/edit/" + name}
+          class="my-8 italic hover:underline hover:underline-offset-2 text-black text-opacity-60"
+          >Edit page
+        </a>
       </div>
     </div>
+    <style>
+      .rainbow_text_animated {
+        background: linear-gradient(
+          to right,
+          #6666ff,
+          #0099ff,
+          #00ff00,
+          #ff3399,
+          #6666ff
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: rainbow_animation 6s ease-in-out infinite;
+        background-size: 400% 100%;
+      }
+
+      @keyframes rainbow_animation {
+        0%,
+        100% {
+          background-position: 0 0;
+        }
+
+        50% {
+          background-position: 100% 0;
+        }
+      }
+    </style>
   </body>
 </html>
-
-<style>
-  .rainbow_text_animated {
-    background: linear-gradient(
-      to right,
-      #6666ff,
-      #0099ff,
-      #00ff00,
-      #ff3399,
-      #6666ff
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: rainbow_animation 6s ease-in-out infinite;
-    background-size: 400% 100%;
-  }
-
-  @keyframes rainbow_animation {
-    0%,
-    100% {
-      background-position: 0 0;
-    }
-
-    50% {
-      background-position: 100% 0;
-    }
-  }
-</style>

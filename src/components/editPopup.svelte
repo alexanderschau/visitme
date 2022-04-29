@@ -31,7 +31,7 @@
       placeholder="name"
       type="url"
     />
-    <div class="my-3 mb-0">Image URL (optional</div>
+    <div class="my-3 mb-0">Image URL (optional)</div>
     <input
       bind:value={link.img}
       class="my-2 w-full bg-gray-100 px-5 py-3"

@@ -4,14 +4,14 @@
   export let profile: ProfileType;
   export let name: string;
 
-  let currentLink: number = -1;
+  let currentItem: number = -1;
 
   let hovering: number;
   let dragId: number;
   const drop = (event, target) => {
     event.dataTransfer.dropEffect = "move";
     const start = parseInt(event.dataTransfer.getData("text/plain"));
-    const newTracklist = profile.links;
+    const newTracklist = profile.content;
 
     if (start < target) {
       newTracklist.splice(target + 1, 0, newTracklist[start]);
@@ -20,7 +20,7 @@
       newTracklist.splice(target, 0, newTracklist[start]);
       newTracklist.splice(start + 1, 1);
     }
-    profile.links = newTracklist;
+    profile.content = newTracklist;
     hovering = null;
   };
 
@@ -63,8 +63,8 @@
   placeholder="description"
   type="url"
 />
-<div class="my-3">Links</div>
-{#each profile.links as link, i (link)}
+<div class="my-3">Elements</div>
+{#each profile.content as item, i (item)}
   <div
     draggable={true}
     animate:flip={{ duration: 300 }}
@@ -78,11 +78,18 @@
     <div
       on:click={(e) => {
         e.preventDefault();
-        currentLink = i;
+        currentItem = i;
       }}
       class="flex-1 px-5 py-3"
     >
-      {link.label}
+      {#if item.type == "link"}
+        {item.data.label}
+      {:else if item.type == "heading"}
+        <span class="font-bold">{item.data.title}</span>
+      {:else if item.type == "iframe"}
+        <!--div class="italic overflow-ellipsis overflow-hidden">{item.data.url}</div-->
+        iFrame
+      {/if}
     </div>
     <div class="w-8 bg-black" />
   </div>
@@ -91,16 +98,19 @@
   <a
     on:click={(e) => {
       e.preventDefault();
-      profile.links = [
-        ...profile.links,
+      profile.content = [
+        ...profile.content,
         {
-          label: "Untitled link",
-          url: "https://example.com",
+          type: "link",
+          data: {
+            url: "https://example.com",
+            label: "Example link",
+          },
         },
       ];
     }}
     href="/"
-    class="hover:underline hover:underline-offset-2">+ Add new link</a
+    class="hover:underline hover:underline-offset-2">+ Add new element</a
   >
   <div class="mt-8">
     <a
@@ -119,15 +129,15 @@
     >
   </div>
 </div>
-{#if currentLink != -1}
+{#if currentItem != -1}
   <EditPopup
     on:close={() => {
-      currentLink = -1;
+      currentItem = -1;
     }}
     on:delete={() => {
-      profile.links = profile.links.filter((c, i) => i != currentLink);
-      currentLink = -1;
+      profile.content = profile.content.filter((c, i) => i != currentItem);
+      currentItem = -1;
     }}
-    bind:link={profile.links[currentLink]}
+    bind:item={profile.content[currentItem]}
   />
 {/if}

@@ -1,5 +1,7 @@
 ---
 import { getS3 } from "../utils";
+import RenderContent from "../components/renderContent.svelte";
+
 const name = Astro.params.name;
 let profile: ProfileType;
 try {
@@ -55,7 +57,10 @@ const nameParts = name.split("/");
         ) : (
           ""
         )}
-        <img class="h-28 rounded-full block mx-auto" src={profile.img} />
+        <img
+          class="h-28 w-28 object-cover rounded-full block mx-auto"
+          src={profile.img}
+        />
         <div class="my-5">
           <div
             class={`text-3xl font-bold ${
@@ -66,7 +71,8 @@ const nameParts = name.split("/");
           </div>
           <div>{profile.description}</div>
         </div>
-        {profile.links.map((link) =>
+        <RenderContent content={profile.content} />
+        <!--{profile.links.map((link) =>
           link.img ? (
             <a
               target={
@@ -95,7 +101,7 @@ const nameParts = name.split("/");
               {link.label}
             </a>
           )
-        )}
+        )}-->
         <a
           href={"/edit/" + name}
           class="my-8 italic hover:underline hover:underline-offset-2 text-black text-opacity-60"

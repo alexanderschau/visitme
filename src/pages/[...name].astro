@@ -1,6 +1,9 @@
 ---
 import { getS3 } from "../utils";
 import RenderContent from "../components/renderContent.svelte";
+import cookie from "cookie"
+
+const token = cookie.parse(Astro.request.headers.get("cookie") || "").token;
 
 const name = Astro.params.name;
 let profile: ProfileType;
@@ -35,7 +38,7 @@ const nameParts = name.split("/");
     <title>{profile.name}</title>
   </head>
   <body>
-    <div class="absolute top-0 left-0 h-full w-full">
+    <div class="absolute top-0 left-0 h-full w-full px-2">
       <div class="text-center max-w-lg mx-auto my-14 px-2">
         {nameParts.length > 1 ? (
           <div class="mb-6 text-left text-gray-400">
@@ -75,41 +78,14 @@ const nameParts = name.split("/");
           <div>{profile.description}</div>
         </div>
         <RenderContent content={profile.content} />
-        <!--{profile.links.map((link) =>
-          link.img ? (
-            <a
-              target={
-                new URL(link.url, "https://visitme.cyou").hostname !=
-                "visitme.cyou"
-                  ? "_blank"
-                  : "_self"
-              }
-              href={link.url}
-              class="my-4 flex w-full border-2 border-gray-800 px-6 hover:underline hover:underline-offset-2"
-            >
-              <img class="my-auto inline-block h-6" src={link.img} />
-              <div class="flex-1 py-4">{link.label}</div>
-            </a>
-          ) : (
-            <a
-              target={
-                new URL(link.url, "https://visitme.cyou").hostname !=
-                "visitme.cyou"
-                  ? "_blank"
-                  : "_self"
-              }
-              href={link.url}
-              class="my-4 block w-full border-2 border-gray-800 py-4 hover:underline hover:underline-offset-2"
-            >
-              {link.label}
-            </a>
-          )
-        )}-->
-        <a
+        <div class="my-8 text-black text-opacity-60">
+        {token?(<a
           href={"/edit/" + name}
-          class="my-8 italic hover:underline hover:underline-offset-2 text-black text-opacity-60"
+          class="hover:underline hover:underline-offset-2 italic"
           >Edit page
-        </a>
+        </a><br/>):""}
+        hosted by <a href="/team" class="hover:underline hover:underline-offset-2 italic">visitme.cyou</a>
+        </div>
       </div>
     </div>
     <style>

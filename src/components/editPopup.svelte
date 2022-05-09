@@ -10,10 +10,10 @@
     e.preventDefault();
     dispatch("close");
   }}
-  class="absolute top-0 left-0 flex h-full w-full"
+  class="fixed top-0 left-0 flex h-full w-full"
 />
 <div
-  class="pointer-events-none absolute top-0 left-0 z-20 flex h-full w-full flex-row items-center justify-center bg-black bg-opacity-50"
+  class="pointer-events-none fixed top-0 left-0 z-20 flex h-full w-full flex-row items-center justify-center bg-black bg-opacity-50"
 >
   <div class="pointer-events-auto w-full max-w-md bg-white px-3 py-6">
     <div class="font-bold">Edit item</div>

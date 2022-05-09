@@ -1,10 +1,6 @@
 ---
-return new Response("", {
-  status: 302,
-  headers: {
-    location: "/team",
-  },
-});
+import { hslToHex } from "../components/color";
+const color = Math.floor(Math.random() * 360);
 ---
 
 <html lang="en">
@@ -13,5 +9,22 @@ return new Response("", {
     <meta name="viewport" content="width=device-width" />
     <title>Astro</title>
   </head>
-  <body> hi</body>
+  <body
+    style={`background: ${hslToHex(color, 100, 95)}; color: ${hslToHex(
+      color,
+      80,
+      65
+    )};`}
+    class="mx-3 my-24 text-center"
+  >
+    <div class="max-w-lg mx-auto">
+      <div class="text-7xl font-bold font-serif">The link for everything.</div>
+      <a
+        href="/"
+        style={`box-shadow: 6px 6px 0px ${hslToHex(color, 80, 65)};`}
+        class="my-16 block px-5 py-5 border-2 bg-white border-black rounded-lg text-xl text-black"
+        >Create yours
+      </a>
+    </div>
+  </body>
 </html>

@@ -88,7 +88,7 @@
         <span class="font-bold">{item.data.title}</span>
       {:else if item.type == "iframe"}
         <!--div class="italic overflow-ellipsis overflow-hidden">{item.data.url}</div-->
-        iFrame
+        <span class="italic">iFrame</span>
       {/if}
     </div>
     <div class="w-8 bg-black" />

@@ -7,7 +7,7 @@ type ProfileType = {
   primaryColor?: [number, number, number];
 };
 
-type ContentTypeOptions = "link" | "heading" | "iframe";
+type ContentTypeOptions = "link" | "heading" | "iframe" | "text";
 type ContentType = {
   type: ContentTypeOptions;
   data: LinkType | HeadingType | IframeType;

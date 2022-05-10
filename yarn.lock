@@ -25,6 +25,11 @@
     tsm "^2.2.1"
     uvu "^0.5.3"
 
+"@astrojs/deno@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@astrojs/deno/-/deno-0.1.2.tgz#298758457f553fc93919b15e55b6e0e62b553832"
+  integrity sha512-iiDbjfhmw0sithjAOCYtGpa+G9dsLEfDTUjcCvVvHcQ5sDziPZshHNS9P9iJ3eNunnJRz6DSmF9zXZX/AviQ7g==
+
 "@astrojs/language-server@^0.13.4":
   version "0.13.4"
   resolved "https://registry.yarnpkg.com/@astrojs/language-server/-/language-server-0.13.4.tgz#77a3f591aa2c91200e2df25b8f969862717bbbe2"

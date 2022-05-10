@@ -89,6 +89,8 @@
       {:else if item.type == "iframe"}
         <!--div class="italic overflow-ellipsis overflow-hidden">{item.data.url}</div-->
         <span class="italic">iFrame</span>
+      {:else if item.type == "image"}
+        <span class="italic">Image</span>
       {/if}
     </div>
     <div class="w-8 bg-black" />

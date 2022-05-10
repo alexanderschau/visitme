@@ -42,6 +42,12 @@
             };
             break;
           }
+          case "image": {
+            item.data = {
+              url: "https://picsum.photos/1500/1000",
+            };
+            break;
+          }
 
           default:
             break;
@@ -53,6 +59,7 @@
       <option value="link">Link</option>
       <option value="heading">Heading</option>
       <option value="iframe">IFrame</option>
+      <option value="image">Image</option>
     </select>
     {#if item.type == "link"}
       <div class="my-3 mb-0">Label</div>
@@ -90,6 +97,14 @@
         bind:value={item.data.url}
         class="my-2 w-full bg-gray-100 px-5 py-3"
         placeholder="https://youtu.be/dQw4w9WgXcQ"
+        type="url"
+      />
+    {:else if item.type == "image"}
+      <div class="my-3 mb-0">Image URL</div>
+      <input
+        bind:value={item.data.url}
+        class="my-2 w-full bg-gray-100 px-5 py-3"
+        placeholder="https://picsum.photos/1500/1000"
         type="url"
       />
     {/if}

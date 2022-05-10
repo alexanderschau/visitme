@@ -13,11 +13,11 @@
           : "_self"}
         href={item.data.url}
         style={`box-shadow: 6px 6px 0px ${genColor()};`}
-        class="my-6 flex w-full border-2 border-gray-800 px-6 hover:underline hover:underline-offset-2"
+        class="my-6 flex w-full rounded-lg border-2 border-gray-800 px-6 hover:underline hover:underline-offset-2"
       >
         <img
           alt="thumbnail"
-          class="my-auto inline-block h-6"
+          class="my-auto inline-block aspect-square h-6 w-6 object-contain"
           src={item.data.img}
         />
         <div class="flex-1 py-4">{item.data.label}</div>
@@ -43,5 +43,7 @@
       title="embed content"
       src={item.data.url}
     />
+  {:else if item.type == "image"}
+    <img alt="image" src={item.data.url} class="rounded-lg w-full" />
   {/if}
 {/each}

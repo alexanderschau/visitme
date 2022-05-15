@@ -1,6 +1,13 @@
 ---
 import { hslToHex } from "../components/color";
 const color = Math.floor(Math.random() * 360);
+
+return new Response("", {
+  status: 302,
+  headers: {
+    location: "/team",
+  },
+});
 ---
 
 <html lang="en">

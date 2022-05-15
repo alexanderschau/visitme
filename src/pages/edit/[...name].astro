@@ -1,6 +1,15 @@
 ---
 import { getS3 } from "../../utils";
 import New from "../../components/edit.svelte";
+import cookie from "cookie";
+
+const token = cookie.parse(Astro.request.headers.get("cookie") || "").token;
+if (!token) {
+  return new Response("", {
+    status: 302,
+    headers: { location: "/team/login" },
+  });
+}
 
 const name = Astro.params.name;
 let profile: ProfileType;

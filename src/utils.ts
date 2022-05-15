@@ -5,6 +5,7 @@ import {
   GetObjectCommandOutput,
   PutObjectCommand,
 } from "@aws-sdk/client-s3";
+import { Upload } from "@aws-sdk/lib-storage";
 
 // Apparently the stream parameter should be of type Readable|ReadableStream|Blob
 // The latter 2 don't seem to exist anywhere.
@@ -44,12 +45,19 @@ export const getS3 = async (key: string): Promise<string> => {
 
 export const setS3 = async (key: string, value: string) => {
   const client = getClient();
-
-  const cmd = new PutObjectCommand({
-    Bucket: import.meta.env.S3_BUCKET_NAME,
-    Key: key,
-    Body: value,
+  console.log(value);
+  const upload = new Upload({
+    client: client,
+    params: {
+      Bucket: import.meta.env.S3_BUCKET_NAME,
+      Key: key,
+      Body: value,
+      ContentType: "text/plain",
+    },
   });
-
-  await client.send(cmd);
+  try {
+    await upload.done();
+  } catch (e) {
+    console.log(e);
+  }
 };

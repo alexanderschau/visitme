@@ -30,7 +30,6 @@
           }
 
           case "heading": {
-            console.log("heading");
             item.data = {
               title: "A New Chapter...",
             };

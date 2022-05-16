@@ -33,10 +33,9 @@
   };
 
   const save = async () => {
-    await fetch(`/api/set/${name}`, {
-      method: "POST",
-      body: JSON.stringify(profile),
-    });
+    await fetch(
+      `/api/set/${name}?d=${encodeURIComponent(JSON.stringify(profile))}`
+    );
     window.location.href = "/" + name;
   };
 </script>

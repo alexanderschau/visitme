@@ -1,11 +1,5 @@
 import { Readable } from "stream";
-import {
-  S3Client,
-  GetObjectCommand,
-  GetObjectCommandOutput,
-  PutObjectCommand,
-} from "@aws-sdk/client-s3";
-import { Upload } from "@aws-sdk/lib-storage";
+import { Client } from "minio";
 
 // Apparently the stream parameter should be of type Readable|ReadableStream|Blob
 // The latter 2 don't seem to exist anywhere.
@@ -19,45 +13,22 @@ export async function streamToString(stream: Readable): Promise<string> {
 }
 
 const getClient = () =>
-  new S3Client({
-    region: import.meta.env.S3_REGION,
-    endpoint: import.meta.env.S3_ENDPOINT,
-    credentials: {
-      accessKeyId: import.meta.env.S3_ACCESS_KEY,
-      secretAccessKey: import.meta.env.S3_SECRET_KEY,
-    },
-    forcePathStyle: true,
+  new Client({
+    endPoint: import.meta.env.S3_ENDPOINT,
+    useSSL: true,
+    accessKey: import.meta.env.S3_ACCESS_KEY,
+    secretKey: import.meta.env.S3_SECRET_KEY,
   });
 
 export const getS3 = async (key: string): Promise<string> => {
   const client = getClient();
 
-  const cmd = new GetObjectCommand({
-    Bucket: import.meta.env.S3_BUCKET_NAME,
-    Key: key,
-  });
+  const resp = await client.getObject(import.meta.env.S3_BUCKET_NAME, key);
 
-  const resp = (await client.send(cmd)) as GetObjectCommandOutput;
-  const text = await streamToString(resp.Body as Readable);
-
-  return text;
+  return await streamToString(resp);
 };
 
 export const setS3 = async (key: string, value: string) => {
   const client = getClient();
-  console.log(value);
-  const upload = new Upload({
-    client: client,
-    params: {
-      Bucket: import.meta.env.S3_BUCKET_NAME,
-      Key: key,
-      Body: value,
-      ContentType: "text/plain",
-    },
-  });
-  try {
-    await upload.done();
-  } catch (e) {
-    console.log(e);
-  }
+  await client.putObject(import.meta.env.S3_BUCKET_NAME, key, value);
 };

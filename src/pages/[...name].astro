@@ -10,7 +10,7 @@ let profile: ProfileType;
 try {
   const respText = await getS3(`${name}.json`);
   profile = JSON.parse(respText);
-} catch {
+} catch{
   profile = {
     name: "404 - Page not found",
     img: "https://openmoji.org/data/color/svg/1F625.svg",

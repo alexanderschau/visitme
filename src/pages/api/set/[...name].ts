@@ -1,17 +1,22 @@
----
 import { setS3, getS3 } from "../../../utils";
-import jwt from "jsonwebtoken";
+import { verify } from "jsonwebtoken";
 import cookie from "cookie";
 
-const { verify } = jwt;
+export const post = async ({
+  request,
+  params,
+}: {
+  request: Request;
+  params: { name: string };
+}) => {
+  const name = params.name;
 
-const get = async ({ name }) => {
   const authFile = `${name.split("/")[0]}.auth.txt`;
   const dataFile = `${name}.json`;
 
   // check auth token
   //verify()
-  const token = cookie.parse(Astro.request.headers.get("cookie")).token;
+  const token = cookie.parse(request.headers.get("cookie")).token;
   let clientId = "";
   try {
     clientId = verify(token, import.meta.env.JWT_SECRET).clientId;
@@ -30,11 +35,9 @@ const get = async ({ name }) => {
   if (!ok) {
     return new Response("", { status: 403 });
   }
-  // update data
 
-  await setS3(dataFile, await Astro.request.text());
+  // update data
+  const body = await request.text();
+  await setS3(dataFile, body);
   return new Response("ok");
 };
-
-return get(Astro.params);
----
